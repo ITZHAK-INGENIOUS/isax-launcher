@@ -53,7 +53,7 @@ class DeclarativeSkill(
     override val displayName: String,
     override val version: String,
     override val category: SkillCategory,
-    private val description: String
+    override val description: String
 ) : IsaxSkill {
     @Composable
     override fun Render(context: Context) { Text(displayName) }

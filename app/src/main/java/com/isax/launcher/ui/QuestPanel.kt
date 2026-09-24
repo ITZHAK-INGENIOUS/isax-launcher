@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -73,7 +74,7 @@ fun QuestPanel(ctx: Context, onDismiss: () -> Unit) {
 @Composable
 private fun LazyQuestList(rows: List<Pair<String, String>>) {
     androidx.compose.foundation.lazy.LazyColumn(Modifier.fillMaxWidth()) {
-        androidx.compose.foundation.lazy.items(rows) { (id, label) ->
+        items(rows) { (id, label) ->
             Text(
                 label, color = IsaxColors.Text, fontSize = 12.sp,
                 modifier = Modifier.fillMaxWidth().clickable { QuestRepository.toggleDone(id) }.padding(vertical = 8.dp)

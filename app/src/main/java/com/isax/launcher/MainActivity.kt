@@ -48,14 +48,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         Prefs.init(this)
         setContent {
+            val activity = this@MainActivity
             var overlay by remember { mutableStateOf(Overlay.NONE) }
-            var apps by remember { mutableStateOf(AppRepository.loadAll(this)) }
+            var apps by remember { mutableStateOf(AppRepository.loadAll(activity)) }
             var showWall by remember { mutableStateOf(false) }
 
             IsaxTheme(accent = androidx.compose.ui.graphics.Color(Prefs.accentColor)) {
                 Box(Modifier.fillMaxSize().background(IsaxColors.Deep)) {
                     HomeScreen(
-                        ctx = this,
+                        ctx = activity,
                         apps = apps,
                         onGesture = { r ->
                             overlay = when (r) {
@@ -66,7 +67,7 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         header = { HeaderBar() },
-                        onAppClick = { app -> FreeformLauncher.launch(this, app) },
+                        onAppClick = { app -> FreeformLauncher.launch(activity, app) },
                         onAppLongPress = { app ->
                             com.isax.launcher.window.WindowSession.add(app, 1080, 1920)
                             overlay = Overlay.WINDOWS
@@ -75,22 +76,22 @@ class MainActivity : ComponentActivity() {
 
                     when (overlay) {
                         Overlay.SAO_HUB -> SaoHubMenu(
-                            ctx = this,
+                            ctx = activity,
                             onDismiss = { overlay = Overlay.NONE },
                             onOpenTerminal = { overlay = Overlay.TERMINAL },
                             onOpenFiles = { overlay = Overlay.FILES },
                             onOpenTrash = { overlay = Overlay.TRASH },
                             onOpenSkills = { overlay = Overlay.SKILLS },
-                            onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
+                            onOpenSettings = { activity.startActivity(Intent(activity, SettingsActivity::class.java)) },
                             onOpenWindows = { overlay = Overlay.WINDOWS }
                         )
-                        Overlay.SYSTEM_STATUS -> SystemStatusWindow(this) { overlay = Overlay.NONE }
-                        Overlay.TERMINAL -> TerminalOverlay(this) { overlay = Overlay.NONE }
+                        Overlay.SYSTEM_STATUS -> SystemStatusWindow(activity) { overlay = Overlay.NONE }
+                        Overlay.TERMINAL -> TerminalOverlay(activity) { overlay = Overlay.NONE }
                         Overlay.FILES -> FileManagerOverlay { overlay = Overlay.NONE }
                         Overlay.TRASH -> TrashOverlay { overlay = Overlay.NONE }
-                        Overlay.SKILLS -> SkillStoreOverlay(this) { overlay = Overlay.NONE }
-                        Overlay.WINDOWS -> WindowBoard(this, { overlay = Overlay.NONE }, apps)
-                        Overlay.QUESTS -> QuestPanel(this) { overlay = Overlay.NONE }
+                        Overlay.SKILLS -> SkillStoreOverlay(activity) { overlay = Overlay.NONE }
+                        Overlay.WINDOWS -> WindowBoard(activity, { overlay = Overlay.NONE }, apps)
+                        Overlay.QUESTS -> QuestPanel(activity) { overlay = Overlay.NONE }
                         Overlay.NONE -> {}
                     }
                 }
@@ -102,8 +103,8 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun HeaderBar() {
         val widgets = SkillRegistry.byCategory(SkillCategory.WIDGET)
-        var stat by remember { mutableStateOf(SystemStats.sample(this)) }
-        LaunchedEffect(Unit) { while (true) { stat = SystemStats.sample(this); delay(3000) } }
+        var stat by remember { mutableStateOf(SystemStats.sample(this@MainActivity)) }
+        LaunchedEffect(Unit) { while (true) { stat = SystemStats.sample(this@MainActivity); delay(3000) } }
         Column(Modifier.fillMaxWidth().background(IsaxColors.Deep.copy(alpha = 0.85f)).padding(16.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text("ISAX", color = IsaxColors.Cyan, fontWeight = FontWeight.Bold, fontSize = 20.sp)
