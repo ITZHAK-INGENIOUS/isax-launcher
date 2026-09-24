@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Isax</string>
+    <string name="app_label">Isax Launcher</string>
+    <string name="notification_listener_label">Isax — Flux de notifications</string>
+    <string name="quest_channel_name">Quêtes Isax</string>
+    <string name="quest_channel_desc">Notifications du système de quêtes</string>
+    <string name="pomodoro_channel_name">Session active</string>
+</resources>
