@@ -1,0 +1,8 @@
+{
+  "name": "isax-build-apk",
+  "version": "1.0.0",
+  "description": "Raccourci npm pour compiler l'APK Isax",
+  "scripts": {
+    "apk": "bash scripts/build_apk.sh"
+  }
+}

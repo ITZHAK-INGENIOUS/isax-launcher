@@ -28,8 +28,12 @@ object QuestRepository {
         Quest(
             id = UUID.randomUUID().toString(),
             title = title, type = type, hour = hour, minute = minute,
-            repeatDays = days, xp = xp
+            repeatDays = days, xp = xp,
+            createdAt = System.currentTimeMillis()
         )
+
+    /** Les quêtes, de la plus récemment créée à la plus ancienne. */
+    fun newestFirst(): List<Quest> = _quests.value.sortedByDescending { it.createdAt }
 
     fun toggleDone(id: String) {
         _quests.value = _quests.value.map { if (it.id == id) it.copy(done = !it.done) else it }
@@ -58,6 +62,7 @@ object QuestRepository {
                 put("type", q.type.name); put("hour", q.hour); put("minute", q.minute)
                 put("repeatDays", JSONArray(q.repeatDays.toList().sorted()))
                 put("xp", q.xp); put("done", q.done); put("firedAt", q.firedAt)
+                put("createdAt", q.createdAt)
             })
         }
         return arr
@@ -73,7 +78,8 @@ object QuestRepository {
             type = runCatching { QuestType.valueOf(j.optString("type")) }.getOrDefault(QuestType.ONESHOT),
             hour = j.optInt("hour", 8), minute = j.optInt("minute", 0),
             repeatDays = days, xp = j.optInt("xp", 10),
-            done = j.optBoolean("done"), firedAt = j.optLong("firedAt")
+            done = j.optBoolean("done"), firedAt = j.optLong("firedAt"),
+            createdAt = j.optLong("createdAt")
         )
     }
 }

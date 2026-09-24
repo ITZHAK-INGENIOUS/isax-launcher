@@ -11,7 +11,9 @@ data class Quest(
     val repeatDays: Set<Int> = emptySet(), // 1=lundi … 7=dimanche (vide = unique)
     val xp: Int = 10,
     val done: Boolean = false,
-    val firedAt: Long = 0L
+    val firedAt: Long = 0L,
+    /** Horodatage de création : sert au tri « les plus récents » du HUD. */
+    val createdAt: Long = 0L
 )
 
 enum class QuestType { ONESHOT, DAILY, TIMED }

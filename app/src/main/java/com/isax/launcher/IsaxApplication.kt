@@ -3,6 +3,7 @@ package com.isax.launcher
 import android.app.Application
 import com.isax.launcher.core.IsaxPaths
 import com.isax.launcher.core.Prefs
+import com.isax.launcher.home.UsageStore
 import com.isax.launcher.quest.QuestRepository
 import com.isax.launcher.skills.SkillRegistry
 import com.isax.launcher.skills.builtin.ClockSkill
@@ -14,6 +15,8 @@ class IsaxApplication : Application() {
         Prefs.init(this)
         IsaxPaths.ensure(this)
         QuestRepository.init(this)
+        // Historique d'usage : tri « récemment utilisés » du tiroir d'applications.
+        UsageStore.init(this)
         // Compétences embarquées (toujours disponibles)
         SkillRegistry.register(ClockSkill())
         SkillRegistry.register(SystemPulseSkill())

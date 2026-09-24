@@ -63,7 +63,11 @@ fun QuestPanel(ctx: Context, onDismiss: () -> Unit) {
                     }
                 }) { Text("AJOUTER + PLANIFIER", color = IsaxColors.Cyan, fontWeight = FontWeight.Bold) }
             }
-            LazyQuestList(quests.map { it.id to ("${if (it.done) "✔" else "○"} ${it.title}  ${"%02d".format(it.hour)}:${"%02d".format(it.minute)}  (+${it.xp} XP)") })
+            // Les plus récentes en tête, comme le TO-DO du HUD.
+            LazyQuestList(
+                quests.sortedByDescending { it.createdAt }
+                    .map { it.id to ("${if (it.done) "✔" else "○"} ${it.title}  ${"%02d".format(it.hour)}:${"%02d".format(it.minute)}  (+${it.xp} XP)") }
+            )
             Spacer(Modifier.height(6.dp))
             Text("Toucher une ligne pour la marquer terminée.",
                 color = IsaxColors.Text.copy(alpha = 0.4f), fontSize = 10.sp)

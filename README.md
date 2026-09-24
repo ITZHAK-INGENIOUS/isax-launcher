@@ -18,6 +18,45 @@ Terminal intégré : binaire natif `minishell` compilé par le NDK/CMake.
 
 ---
 
+## Surface HUD (v0.3)
+
+Le bureau est une transposition du croquis validé :
+
+```
+┌ horloge · secondes · ISAX ─┬─ batterie ───── 75 %
+│                            ├─ CPU ────────── 84 %
+│                            ├─ stockage ───── 12 %
+│                            └─ réseau ─────── actif
+├ TO-DO (+)                  │ Notifs
+│  ☐ tâche la plus récente   │  ❖ Messages ···· 10
+│  ☐ …                       │  ❖ Autre ······· 12
+│  ☐ …                       │  … ↑
+├ >|  shell replié (tap = se déploie vers le haut, touches logicielles au-dessus du dock)
+└ ✆ Téléphone   ✉ Messages   ❖ Applications
+```
+
+Raccourcis vivants : **horloge → Horloge**, **Batterie → usage batterie**,
+**Réseau → Réglages réseau** (Wi-Fi / Bluetooth / données), **CPU → CPU**
+(charge + mémoire), **Stockage → Stockage**, **Notifs → lance l'appli concernée**.
+
+### Nouvelles briques
+
+| Fichier | Rôle |
+|---|---|
+| `ui/Hud.kt` | En-tête (horloge + 4 jauges), blocs TO-DO / Notifs, dock |
+| `ui/HudGlyphs.kt` | Glyphes Canvas : batterie, CPU, stockage, réseau, caret, case à cocher |
+| `ui/ShellPanel.kt` | Shell repliable + touches logicielles (CTRL · SHIFT · ESC · TAB · flèches) |
+| `ui/SplashOverlay.kt` | Animation de lancement (anneau, losange, mot-marque) |
+| `ui/AppDrawerOverlay.kt` | Tiroir : tri alphabétique, recherche, récents en haut |
+| `ui/StatWindows.kt` | Fenêtres Horloge / Réseau / CPU |
+| `ui/StorageWindow.kt` | Fenêtre Stockage (barre segmentée) |
+| `ui/anim/IsaxMotion.kt` | Grammaire de mouvement (courbes, durées, ressorts) |
+| `home/UsageStore.kt` | Fréquentation des apps (dernier lancement) |
+| `system/ConnectivityController.kt` | Bascule Wi-Fi / Bluetooth / données |
+| `system/StorageStats.kt` | Occupation du stockage interne |
+
+---
+
 ## ⚠️ Ce que ce dépôt est — et n'est pas
 
 C'est un **projet source complet et structuré** (code Kotlin + C, Gradle,
