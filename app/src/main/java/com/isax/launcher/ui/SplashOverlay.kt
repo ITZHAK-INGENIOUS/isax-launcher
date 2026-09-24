@@ -55,6 +55,12 @@ fun SplashOverlay(onFinished: () -> Unit) {
         onFinished()
     }
 
+    val sweep by animateFloatAsState(
+        targetValue = if (ringDone) 360f else 0f,
+        animationSpec = IsaxMotion.fluid(820),
+        label = "splash-ring"
+    )
+
     Box(
         Modifier.fillMaxSize().background(IsaxColors.Deep),
         contentAlignment = Alignment.Center
@@ -70,11 +76,6 @@ fun SplashOverlay(onFinished: () -> Unit) {
                     startAngle = 0f, sweepAngle = 360f, useCenter = false,
                     topLeft = Offset(inset, inset), size = side,
                     style = Stroke(stroke)
-                )
-                val sweep by animateFloatAsState(
-                    targetValue = if (ringDone) 360f else 0f,
-                    animationSpec = IsaxMotion.fluid(820),
-                    label = "splash-ring"
                 )
                 drawArc(
                     color = IsaxColors.Cyan,

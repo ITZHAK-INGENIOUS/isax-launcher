@@ -87,12 +87,13 @@ object ConnectivityController {
     }
 
     // ───────────────────────── Accès système ─────────────────────────
+    private const val ACTION_BLUETOOTH = "android.settings.BLUETOOTH_SETTINGS"
 
     fun openInternetPanel(ctx: Context) = panel(ctx, Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
 
     fun openWifiPanel(ctx: Context) = panel(ctx, Settings.Panel.ACTION_WIFI)
 
-    fun openBluetoothPanel(ctx: Context) = panel(ctx, Settings.Panel.ACTION_BLUETOOTH)
+    fun openBluetoothPanel(ctx: Context) = panel(ctx, ACTION_BLUETOOTH)
 
     /**
      * `Settings.Panel` n'existe qu'à partir d'Android 10 ; avant, on retombe sur
@@ -104,7 +105,7 @@ object ConnectivityController {
         } else {
             when (action) {
                 Settings.Panel.ACTION_WIFI -> Intent(Settings.ACTION_WIFI_SETTINGS)
-                Settings.Panel.ACTION_BLUETOOTH -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                ACTION_BLUETOOTH -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
                 else -> Intent(Settings.ACTION_WIRELESS_SETTINGS)
             }
         }

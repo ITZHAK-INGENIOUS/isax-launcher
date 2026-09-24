@@ -32,7 +32,6 @@ import com.isax.launcher.core.IsaxPaths
 import com.isax.launcher.terminal.MinishellBridge
 import com.isax.launcher.theme.IsaxColors
 import com.isax.launcher.ui.anim.IsaxMotion
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
 
 /**
@@ -216,6 +215,3 @@ private fun SoftKeyRow(onKey: (String) -> Unit) {
 
 /** Teinte du rappel d'état affiché sous le dock quand le shell est déployé. */
 internal val ShellHintColor: Color get() = Color(0x66E8F6FF)
-
-@Suppress("unused")
-private val shellKeepImports: List<Any> = listOf(delay(0L))
